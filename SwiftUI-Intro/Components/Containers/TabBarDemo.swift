@@ -10,16 +10,48 @@ import SwiftUI
 struct TabBarDemo: View {
     
     @State private var selection = 0
+    @State private var tabSelection: TabBarItem = .home
     
     var body: some View {
-        NavigationView {
-            tabBar
-        }
+        navTabBar
+    }
+}
+
+struct TabBarDemo_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        TabBarDemo()
     }
 }
 
 extension TabBarDemo {
-    private var tabBar: some View {
+    private var navTabBar: some View {
+        NavigationView {
+            customTabView
+        }
+    }
+    
+    private var customTabView: some View {
+        CustomTabBarContainerView(selection: $tabSelection) {
+            Color.red.tabBarItem(tab: .home, selection: $tabSelection)
+            Color.blue.tabBarItem(tab: .favorites, selection: $tabSelection)
+            profileView.tabBarItem(tab: .profile, selection: $tabSelection)
+        }
+    }
+    
+    private var profileView: some View {
+        ZStack {
+            Color.green
+            NavigationLink(
+                destination: SecondPage(),
+                label: {
+                    Text("3333")
+                        .accentColor(Color.red)
+                })
+        }
+    }
+    
+    private var defaultTabView: some View {
         TabView(selection: $selection) {
             Text("1").tabItem {
                 Image(systemName: "1.lane")
@@ -51,11 +83,5 @@ extension TabBarDemo {
             }.tag(3)
         }
         .accentColor(Color.orange)
-    }
-}
-
-struct TabBarDemo_Previews: PreviewProvider {
-    static var previews: some View {
-        TabBarDemo()
     }
 }
