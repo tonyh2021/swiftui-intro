@@ -11,11 +11,40 @@ import SwiftUI
 struct ScrollViewDemo: View {
     
     var body: some View {
+        scrollView2
+    }
+}
+
+extension ScrollViewDemo {
+    private var scrollView1: some View {
         ScrollView {
             // VStack or LazyVStack
             LazyVStack(spacing: 20) {
                 ForEach(0..<20) { index in
                     SampleRow(id: index)
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .font(.largeTitle)
+    }
+    
+    private var scrollView2: some View {
+        ScrollView {
+            // VStack or LazyVStack
+            LazyVStack() {
+                ForEach(0..<100) { index in
+                    ScrollView(.horizontal, showsIndicators: false, content: {
+                        LazyHStack {
+                            ForEach(0..<20) { index in
+                                RoundedRectangle(cornerRadius: 25)
+                                    .fill(.white)
+                                    .frame(width: 200, height: 150)
+                                    .shadow(radius: 10)
+                                    .padding()
+                            }
+                        }
+                    })
                 }
             }
             .frame(maxWidth: .infinity)
