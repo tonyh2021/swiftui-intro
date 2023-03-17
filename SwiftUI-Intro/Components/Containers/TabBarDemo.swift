@@ -27,7 +27,7 @@ struct TabBarDemo_Previews: PreviewProvider {
 extension TabBarDemo {
     private var navTabBar: some View {
         NavigationView {
-            customTabView
+            pageTabView
         }
     }
     
@@ -49,6 +49,18 @@ extension TabBarDemo {
                         .accentColor(Color.red)
                 })
         }
+    }
+    
+    private var pageTabView: some View {
+        TabView {
+            RoundedRectangle(cornerRadius: 25.0)
+                .foregroundColor(.red)
+            RoundedRectangle(cornerRadius: 25.0)
+                .foregroundColor(.blue)
+            RoundedRectangle(cornerRadius: 25.0)
+                .foregroundColor(.green)
+        }
+        .tabViewStyle(PageTabViewStyle())
     }
     
     private var defaultTabView: some View {

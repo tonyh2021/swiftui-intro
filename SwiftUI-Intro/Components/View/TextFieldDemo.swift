@@ -13,6 +13,9 @@ struct TextFieldDemo: View {
     @State var name: String = "Tony" //create State
     @State var password: String = ""
     
+//    iOS 15+
+//    @FocusState private var usernameInFocus: Bool
+    
     var body: some View {
         GroupBox {
             TextField("Username", text: $name)
