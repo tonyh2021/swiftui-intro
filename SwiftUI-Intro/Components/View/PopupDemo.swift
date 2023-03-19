@@ -9,9 +9,88 @@ import SwiftUI
 
 struct PopupDemo: View {
     
+    @State private var selectModel: RandomModel = RandomModel(title: "STARTING TITLE")
+    
+    @State private var selectModel2: RandomModel? = nil
+    
     @State private var showSheet: Bool = false
+    @State private var showSheet2: Bool = false
     
     var body: some View {
+        demo4
+    }
+}
+
+struct RandomModel: Identifiable {
+    let id = UUID().uuidString
+    let title: String
+}
+
+extension PopupDemo {
+    
+    /// multiple sheet
+    /// 1. use a binding
+    /// 2. use multiple sheets
+    /// 3. use $item
+    
+    //use a binding
+    private var demo2: some View {
+        VStack(spacing: 20) {
+            Button("Button 1") {
+                selectModel = RandomModel(title: "ONE")
+                showSheet.toggle()
+            }
+            Button("Button 2") {
+                selectModel = RandomModel(title: "TWO")
+                showSheet.toggle()
+            }
+        }
+        .sheet(isPresented: $showSheet, content: {
+            NextScreen(selectedModel: $selectModel)
+        })
+    }
+    
+    //use multiple sheets
+    private var demo3: some View {
+        VStack(spacing: 20) {
+            Button("Button 1") {
+                showSheet.toggle()
+            }
+            .sheet(isPresented: $showSheet, content: {
+                ThirdScreen(selectedModel: RandomModel(title: "ONE"))
+            })
+            Button("Button 2") {
+                showSheet2.toggle()
+            }
+            .sheet(isPresented: $showSheet2, content: {
+                ThirdScreen(selectedModel: RandomModel(title: "TWO"))
+            })
+        }
+    }
+    
+    //use $item
+    private var demo4: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                Button("Button 1") {
+                    selectModel2 = RandomModel(title: "ONE")
+                }
+                Button("Button 2") {
+                    selectModel2 = RandomModel(title: "TWO")
+                }
+                ForEach(0..<50, id: \.self) { index in
+                    Button("Button \(index)") {
+                        selectModel2 = RandomModel(title: "\(index)")
+                    }
+                }
+            }
+            .sheet(item: $selectModel2) { model in
+                ThirdScreen(selectedModel: model)
+            }
+        }
+    }
+    
+    private var demo1: some View {
         ZStack {
             Color.green.ignoresSafeArea()
             Button {
@@ -50,6 +129,25 @@ struct PopupDemo: View {
                 .offset(y: showSheet ? 0 : UIScreen.main.bounds.height)
                 .animation(.spring())
         }
+    }
+}
+
+
+struct NextScreen: View {
+    
+    @Binding var selectedModel: RandomModel
+    var body: some View {
+        Text(selectedModel.title)
+            .font(.largeTitle)
+    }
+}
+
+struct ThirdScreen: View {
+    
+    let selectedModel: RandomModel
+    var body: some View {
+        Text(selectedModel.title)
+            .font(.largeTitle)
     }
 }
 

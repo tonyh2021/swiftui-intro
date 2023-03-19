@@ -11,7 +11,7 @@ import SwiftUI
 struct SwiftUI_IntroApp: App {
     var body: some Scene {
         WindowGroup {
-            GestureDemo()
+            ArrayDemo()
         }
     }
 }

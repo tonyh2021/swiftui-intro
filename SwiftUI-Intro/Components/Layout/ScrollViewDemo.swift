@@ -10,8 +10,11 @@ import SwiftUI
 // UIScrollView
 struct ScrollViewDemo: View {
     
+    @State private var scrollToIndex: Int = 0
+    @State private var textFieldText: String = ""
+    
     var body: some View {
-        scrollView2
+        scrollViewReader
     }
 }
 
@@ -50,6 +53,36 @@ extension ScrollViewDemo {
             .frame(maxWidth: .infinity)
         }
         .font(.largeTitle)
+    }
+    
+    private var scrollViewReader: some View {
+        VStack {
+            TextField("Enter a line number...", text: $textFieldText)
+                .frame(height: 55)
+                .border(Color.gray)
+                .padding(.horizontal)
+                .keyboardType(.numberPad)
+            
+            Button("Go!") {
+                if let index = Int(textFieldText) {
+                    scrollToIndex = index
+                }
+            }
+            
+            ScrollView {
+                ScrollViewReader { proxy in
+                    ForEach(0..<50) { index in
+                        SampleRow(id: index)
+                            .id(index)
+                    }.onChange(of: scrollToIndex) { newValue in
+                        withAnimation(.spring()) {
+                            proxy.scrollTo(newValue, anchor: .top)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+            }.font(.largeTitle)
+        }
     }
 }
 
