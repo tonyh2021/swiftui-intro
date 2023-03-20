@@ -13,11 +13,11 @@ struct CoreDataDemo: View {
     @Environment(\.managedObjectContext) private var viewContext;
     
     @FetchRequest(
-        entity: FruitEntity.entity(),
+        entity: FruitItem.entity(),
         sortDescriptors: [
-            NSSortDescriptor(keyPath: \FruitEntity.name, ascending: true)
+            NSSortDescriptor(keyPath: \FruitItem.name, ascending: true)
         ])
-    private var fruits: FetchedResults<FruitEntity>
+    private var fruits: FetchedResults<FruitItem>
     
     @State private var textFieldText: String = ""
 
@@ -80,7 +80,7 @@ struct CoreDataDemo: View {
         }
     }
     
-    private func updateItem(fruit: FruitEntity) {
+    private func updateItem(fruit: FruitItem) {
         withAnimation {
             fruit.name = (fruit.name ?? "") + "!"
             saveItems()
