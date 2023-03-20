@@ -13,8 +13,7 @@ struct SwiftUI_IntroApp: App {
     
     var body: some Scene {
         WindowGroup {
-            CoreDataMVVMDemo()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            CoreDataRelationshipsDemo()
         }
     }
 }
