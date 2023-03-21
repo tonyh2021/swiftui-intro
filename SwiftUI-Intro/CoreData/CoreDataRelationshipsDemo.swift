@@ -179,7 +179,7 @@ struct CoreDataRelationshipsDemo: View {
             ScrollView {
                 VStack(spacing: 20) {
                     Button {
-                        vm.deleteBusiness()
+//                        vm.deleteBusiness()
                     } label: {
                         Text("Perform Action")
                             .foregroundColor(.white)
